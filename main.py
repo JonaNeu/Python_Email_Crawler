@@ -4,17 +4,12 @@ from spider import Spider
 from domain import *
 from general import *
 
-
-
-PROJECT_NAME = 'unicorn'
-HOMEPAGE = 'https://unicornpitch.com/'
-
-# TODO read in all the website adresses form the excel file
-
-
+PROJECT_NAME = 'slidepress'
+HOMEPAGE = 'https://slidepress.eu'
 DOMAIN_NAME = get_domain_name(HOMEPAGE)
 QUEUE_FILE = PROJECT_NAME + '/queue.txt'
 CRAWLED_FILE = PROJECT_NAME + '/crawled.txt'
+EMAIL_FILE = 'emails.txt'
 NUMBER_OF_THREADS = 8
 queue = Queue()
 Spider(PROJECT_NAME, HOMEPAGE, DOMAIN_NAME)
@@ -54,3 +49,5 @@ def crawl():
 
 create_workers()
 crawl()
+
+append_set_to_file(Spider.email_set, EMAIL_FILE)

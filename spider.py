@@ -2,7 +2,7 @@ from urllib.request import urlopen
 from link_finder import LinkFinder
 from domain import *
 from general import *
-
+import re
 
 
 class Spider:
@@ -12,8 +12,10 @@ class Spider:
     domain_name = ''
     queue_file = ''
     crawled_file = ''
+    email_file = ''
     queue = set()
     crawled = set()
+    email_set = set()
 
     def __init__(self, project_name, base_url, domain_name):
         Spider.project_name = project_name
@@ -21,6 +23,7 @@ class Spider:
         Spider.domain_name = domain_name
         Spider.queue_file = Spider.project_name + '/queue.txt'
         Spider.crawled_file = Spider.project_name + '/crawled.txt'
+        Spider.email_file = 'emails.txt'
         self.boot()
         self.crawl_page('First spider', Spider.base_url)
 
@@ -54,6 +57,8 @@ class Spider:
                 html_string = html_bytes.decode("utf-8")
             finder = LinkFinder(Spider.base_url, page_url)
             finder.feed(html_string)
+            Spider.find_all_emails(html_string)
+
         except Exception as e:
             print(str(e))
             return set()
@@ -68,6 +73,13 @@ class Spider:
             if Spider.domain_name != get_domain_name(url):
                 continue
             Spider.queue.add(url)
+
+    # method to find all emails in an html string
+    @staticmethod
+    def find_all_emails(html_string):
+        emails = re.findall(r'[\w\.-]+@[\w\.-]+', html_string)
+        for email in emails:
+            Spider.email_set.add(email)
 
     @staticmethod
     def update_files():
