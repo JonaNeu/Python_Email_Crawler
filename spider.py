@@ -4,6 +4,7 @@ from domain import *
 from general import *
 
 
+
 class Spider:
 
     project_name = ''

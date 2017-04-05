@@ -4,8 +4,14 @@ from spider import Spider
 from domain import *
 from general import *
 
+
+
 PROJECT_NAME = 'unicorn'
 HOMEPAGE = 'https://unicornpitch.com/'
+
+# TODO read in all the website adresses form the excel file
+
+
 DOMAIN_NAME = get_domain_name(HOMEPAGE)
 QUEUE_FILE = PROJECT_NAME + '/queue.txt'
 CRAWLED_FILE = PROJECT_NAME + '/crawled.txt'
