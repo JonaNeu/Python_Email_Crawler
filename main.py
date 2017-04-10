@@ -4,15 +4,10 @@ from spider import Spider
 from domain import *
 from general import *
 
-PROJECT_NAME = 'slidepress'
-HOMEPAGE = 'https://slidepress.eu'
-DOMAIN_NAME = get_domain_name(HOMEPAGE)
-QUEUE_FILE = PROJECT_NAME + '/queue.txt'
-CRAWLED_FILE = PROJECT_NAME + '/crawled.txt'
-EMAIL_FILE = 'emails.txt'
-NUMBER_OF_THREADS = 8
-queue = Queue()
-Spider(PROJECT_NAME, HOMEPAGE, DOMAIN_NAME)
+from openpyxl import load_workbook
+
+excel_sheet = load_workbook('data.xlsx')
+excel_sheet = excel_sheet.get_sheet_by_name('Tabelle1')
 
 
 # Create worker threads (will die when main exits)
@@ -47,7 +42,36 @@ def crawl():
         create_jobs()
 
 
-create_workers()
-crawl()
 
-append_set_to_file(Spider.email_set, EMAIL_FILE)
+
+PROJECT_NAME = ''
+HOMEPAGE = ''
+
+for i in range(180, 310):
+
+    homepage = excel_sheet['C{}'.format(i)].value
+
+    # check if url starts with http or https
+    if not homepage.startswith('http'):
+        HOMEPAGE = "http://" + homepage
+    else:
+        HOMEPAGE = homepage
+    print("\n\n\n" + HOMEPAGE)
+
+    DOMAIN_NAME = get_domain_name(HOMEPAGE)
+
+    PROJECT_NAME = DOMAIN_NAME
+    print(PROJECT_NAME + "\n\n\n")
+
+
+    QUEUE_FILE = PROJECT_NAME + '/queue.txt'
+    CRAWLED_FILE = PROJECT_NAME + '/crawled.txt'
+    EMAIL_FILE = 'emails.csv'
+    NUMBER_OF_THREADS = 8
+
+    queue = Queue()
+    Spider(PROJECT_NAME, HOMEPAGE, DOMAIN_NAME)
+
+    create_workers()
+    crawl()
+

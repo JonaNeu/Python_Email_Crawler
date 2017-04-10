@@ -17,13 +17,14 @@ class Spider:
     crawled = set()
     email_set = set()
 
+
     def __init__(self, project_name, base_url, domain_name):
         Spider.project_name = project_name
         Spider.base_url = base_url
         Spider.domain_name = domain_name
         Spider.queue_file = Spider.project_name + '/queue.txt'
         Spider.crawled_file = Spider.project_name + '/crawled.txt'
-        Spider.email_file = 'emails.txt'
+        Spider.email_file = 'emails.csv'
         self.boot()
         self.crawl_page('First spider', Spider.base_url)
 
@@ -79,9 +80,13 @@ class Spider:
     def find_all_emails(html_string):
         emails = re.findall(r'[\w\.-]+@[\w\.-]+', html_string)
         for email in emails:
-            Spider.email_set.add(email)
+            if not email.endswith(".png"):
+                if not email.endswith(".jpg"):
+                    Spider.email_set.add(email)
+                    print(email)
 
     @staticmethod
     def update_files():
         set_to_file(Spider.queue, Spider.queue_file)
         set_to_file(Spider.crawled, Spider.crawled_file)
+        append_set_to_file(Spider.email_set, Spider.email_file)

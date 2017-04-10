@@ -1,3 +1,9 @@
 
 *.pyc
 .idea/
+
+*.xlsx
+
+*.txt
+
+*.csv
