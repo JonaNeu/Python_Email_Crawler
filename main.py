@@ -42,12 +42,13 @@ def crawl():
         create_jobs()
 
 
-
+# TODO restrict the number of websites that gets crawled to a certain number
+# seiten wie facebook, linkedin restricten
 
 PROJECT_NAME = ''
 HOMEPAGE = ''
 
-for i in range(180, 310):
+for i in range(308, 310):
 
     homepage = excel_sheet['C{}'.format(i)].value
 

@@ -78,12 +78,11 @@ class Spider:
     # method to find all emails in an html string
     @staticmethod
     def find_all_emails(html_string):
-        emails = re.findall(r'[\w\.-]+@[\w\.-]+', html_string)
+        emails = re.findall(r'[^@]+@[^@]+\.[^@]+', html_string)
         for email in emails:
-            if not email.endswith(".png"):
-                if not email.endswith(".jpg"):
-                    Spider.email_set.add(email)
-                    print(email)
+            if not email.endswith(".png") or not email.endswith(".jpg"):
+                Spider.email_set.add(email)
+                print(email)
 
     @staticmethod
     def update_files():
