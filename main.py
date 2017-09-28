@@ -48,7 +48,7 @@ def crawl():
 PROJECT_NAME = ''
 HOMEPAGE = ''
 
-for i in range(308, 310):
+for i in range(4, 310):
 
     homepage = excel_sheet['C{}'.format(i)].value
 
